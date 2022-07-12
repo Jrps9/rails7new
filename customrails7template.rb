@@ -62,8 +62,6 @@ file "app/views/shared/_flashes.html.erb", <<~HTML
   <% end %>
 HTML
 
-create_file('app/views/shared/_navbar.html.erb')
-
 file "app/views/shared/_navbar.html.erb", <<~HTML
   <div class="navbar-deSerie">
     <div class="navbar-deSerie__logo">
@@ -103,8 +101,6 @@ file "app/views/shared/_navbar.html.erb", <<~HTML
   </div>
 HTML
 
-create_file('app/views/shared/_footer.html.erb')
-
 file "app/views/shared/_footer.html.erb", <<~HTML
   <div class="footer-deSerie">
     <div class="footer-deSerie__logo">
@@ -116,7 +112,7 @@ file "app/views/shared/_footer.html.erb", <<~HTML
 
     <div class="footer-deSerie__contact">
       <p>Tel : 06 52 84 03 18</p>
-      <p>E-mail: contact@nautwebdev.org</p>
+      <p>E-mail: contact@naut-society.fr</p>
     </div>
 
     <span class="vertical-line"></span>
@@ -153,7 +149,7 @@ end
 # README
 ########################################
 markdown_file_content = <<~MARKDOWN
-  Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team.
+  Rails app generated with [lewagon/rails-templates](https://github.com/lewagon/rails-templates), created by the [Le Wagon coding bootcamp](https://www.lewagon.com) team and customized by Jrps9.
 MARKDOWN
 file "README.md", markdown_file_content, force: true
 
@@ -177,11 +173,12 @@ after_bundle do
   ########################################
   rails_command "db:drop db:create db:migrate"
   generate("simple_form:install", "--bootstrap")
-  generate(:controller, "pages", "home", "--skip-routes", "--no-test-framework")
+  generate(:controller, "pages", "home", "contact", "--skip-routes", "--no-test-framework")
 
   # Routes
   ########################################
   route 'root to: "pages#home"'
+  route 'get "contact" to: "pages#contact"'
 
   # Gitignore
   ########################################
@@ -252,7 +249,7 @@ after_bundle do
   # Yarn
   ########################################
   run "yarn add bootstrap @popperjs/core"
-  append_file "app/javascript/application.js", <<~JS
+  append_file "app/javascript/packs/application.js", <<~JS
     import "bootstrap"
   JS
 
