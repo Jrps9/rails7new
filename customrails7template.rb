@@ -24,7 +24,7 @@ gsub_file("Gemfile", '# gem "sassc-rails"', 'gem "sassc-rails"')
 ########################################
 run "rm -rf app/assets/stylesheets"
 run "rm -rf vendor"
-run 'curl -L https://github.com/Jrps9/stylesheets/raw/main/stylesheets.zip > toto.zip'
+run 'curl -L https://github.com/Jrps9/stylesheets/main/stylesheets.zip > toto.zip'
 run "unzip toto.zip -d app/assets && rm -f toto.zip"
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
 
