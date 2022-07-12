@@ -62,12 +62,91 @@ file "app/views/shared/_flashes.html.erb", <<~HTML
   <% end %>
 HTML
 
-run "curl -L https://raw.githubusercontent.com/lewagon/awesome-navbars/master/templates/_navbar_wagon.html.erb > app/views/shared/_navbar.html.erb"
+create_file('app/views/shared/_navbar.html.erb')
+
+file "app/views/shared/_navbar.html.erb", <<~HTML
+  <div class="navbar-deSerie">
+    <div class="navbar-deSerie__logo">
+      <%= link_to "#" do %>
+      <% end %>
+    </div>
+    <ul class="navbar-deSerie__links">
+      <li class="navbar-deSerie__link">
+        <%= link_to "Home", "#"%>
+        <span></span>
+      </li>
+      <li class="navbar-deSerie__link">
+        <%= link_to "Contact", '#' %>
+      </li>
+      <li class="navbar-deSerie__link">
+        <%= link_to "About", '#' %>
+      </li>
+      <li class="navbar-deSerie__link">
+        <%= link_to "Gallery", '#' %>
+      </li>
+      <% if user_signed_in? %>
+        <li class="navbar-deSerie__link">
+          <%= link_to "Log out", destroy_user_session_path, method: :delete %>
+        </li>
+      <% else %>
+        <li class="navbar-deSerie__link">
+          <%= link_to "Login", new_user_session_path %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="navbar-deSerie__burger">
+    <span class="navbar-deSerie__burger__span s--1"></span>
+    <span class="navbar-deSerie__burger__span s--2"></span>
+    <span class="navbar-deSerie__burger__span s--3"></span>
+  </div>
+HTML
+
+create_file('app/views/shared/_footer.html.erb')
+
+file "app/views/shared/_footer.html.erb", <<~HTML
+  <div class="footer-deSerie">
+    <div class="footer-deSerie__logo">
+      <%= link_to "#" do %>
+      <% end %>
+    </div>
+
+    <span class="vertical-line"></span>
+
+    <div class="footer-deSerie__contact">
+      <p>Tel : 06 52 84 03 18</p>
+      <p>E-mail: contact@nautwebdev.org</p>
+    </div>
+
+    <span class="vertical-line"></span>
+
+    <div class="footer-deSerie__sitemap">
+      <p>Plan du site</p>
+      <p>Mentions légales</p>
+    </div>
+
+    <span class="vertical-line"></span>
+
+    <div class="footer-deSerie__social-network">
+      <%= link_to "#", class: "social-link" do %>
+        <i class="fa-brands fa-instagram"></i>
+      <% end %>
+      <%= link_to "#", class: "social-link" do %>
+        <i class="fa-brands fa-facebook-f"></i>
+      <% end %>
+      <%= link_to "#", class: "social-link" do %>
+        <i class="fa-brands fa-twitter"></i>
+      <% end %>
+    </div>
+  </div>
+HTML
 
 inject_into_file "app/views/layouts/application.html.erb", after: "<body>" do
   <<~HTML
     <%= render "shared/navbar" %>
     <%= render "shared/flashes" %>
+    <%= render "shared/footer" %>
   HTML
 end
 
