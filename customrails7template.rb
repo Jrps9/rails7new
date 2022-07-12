@@ -178,7 +178,7 @@ after_bundle do
   # Routes
   ########################################
   route 'root to: "pages#home"'
-  route 'get "contact" to: "pages#contact"'
+  route 'get "contact", to: "pages#contact"'
 
   # Gitignore
   ########################################
