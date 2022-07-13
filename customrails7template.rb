@@ -24,7 +24,8 @@ gsub_file("Gemfile", '# gem "sassc-rails"', 'gem "sassc-rails"')
 ########################################
 run "rm -rf app/assets/stylesheets"
 run "rm -rf vendor"
-run 'curl -L https://github.com/Jrps9/stylesheets/raw/main/stylesheets.zip > toto.zip'
+run "curl -L https://github.com/Jrps9/stylesheets/raw/main/stylesheets.zip > toto.zip"
+run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/logo_transparent.png > app/assets/stylesheets/images"
 run "unzip toto.zip -d app/assets && rm -f toto.zip"
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
 
@@ -70,17 +71,16 @@ file "app/views/shared/_navbar.html.erb", <<~HTML
     </div>
     <ul class="navbar-deSerie__links">
       <li class="navbar-deSerie__link">
-        <%= link_to "Home", "#"%>
-        <span></span>
+        <%= link_to "Home", root_path %>
       </li>
       <li class="navbar-deSerie__link">
-        <%= link_to "Contact", '#' %>
+        <%= link_to "Gallery", '#' %>
       </li>
       <li class="navbar-deSerie__link">
         <%= link_to "About", '#' %>
       </li>
       <li class="navbar-deSerie__link">
-        <%= link_to "Gallery", '#' %>
+        <%= link_to "Contact", 'contact' %>
       </li>
       <% if user_signed_in? %>
         <li class="navbar-deSerie__link">
@@ -180,6 +180,51 @@ after_bundle do
   route 'root to: "pages#home"'
   route 'get "contact", to: "pages#contact"'
 
+  # Contact
+  ########################################
+    create_file "app/views/pages/contact.html.erb", <<~HTML
+      <div class="row no-pad">
+        <div class="col-12 col-md-6 col-lg-5">
+          <div class="contact__container">
+            <%= render "shared/contact" %>
+          </div>
+        </div>
+        <div class="col-12 col-md-6 col-lg-7 contact__background">
+          <%= image_tag("background-contact.jpg") %>
+          <div class="contact__background--text">
+            <h2>Vous avez un projet ?</h2>
+            <h2>Nous serions heureux d'en parler !</h2>
+          </div>
+        </div>
+      </div>
+    HTML
+
+  create_file "app/views/shared/_contact.html.erb", <<~HTML
+    <%= simple_form_for "toto", defaults: { input_html:{class: "custom-form-field"}, wrapper_html:{ class: "custom-input"}, label_html: {class: "custom-form-label"}} do |f| %>
+
+      <%= link_to root_path, class:"contact__link" do %>
+        <p><i class="fa-solid fa-circle-arrow-left"></i> Retour à l'acceuil</p>
+      <% end %>
+
+      <h1>Comuniquons !</h1>
+      <p>Des suggestions, remarques, ou questions ?</p>
+      <br>
+
+      <%= f.input :name,
+      label:"Nom ",
+      placeholder: "Votre nom ou prénom",
+      required: true %>
+
+      <%= f.input :email, label:"E-mail", required: true, placeholder: "Votre e-mail" %>
+
+      <%= f.label :Message, class:"custom-form-label" %>
+      <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "custom-form-field",
+            placeholder: "Votre message..."%>
+
+      <%= f.submit 'Envoyer', class: 'custom-contact-submit' %>
+    <% end %>
+  HTML
+
   # Gitignore
   ########################################
   append_file ".gitignore", <<~TXT
@@ -249,7 +294,7 @@ after_bundle do
   # Yarn
   ########################################
   run "yarn add bootstrap @popperjs/core"
-  append_file "app/javascript/packs/application.js", <<~JS
+  append_file "app/javascript/application.js", <<~JS
     import "bootstrap"
   JS
 
@@ -269,5 +314,5 @@ after_bundle do
   ########################################
   git :init
   git add: "."
-  git commit: "-m 'Initial commit with devise template from https://github.com/lewagon/rails-templates'"
+  git commit: "-m 'Initial commit with devise template, customized front by Jrps9, from https://github.com/lewagon/rails-templates'"
 end
