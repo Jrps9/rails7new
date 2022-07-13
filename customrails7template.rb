@@ -29,10 +29,8 @@ run "unzip customstylesheets.zip -d app/assets && rm -f customstylesheets.zip"
 
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
 
-
 run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/logo_transparent.png > app/assets/images/logo_transparent.png"
-run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/background-contact.jpg > app/assets/images/logo_transparent.png"
-
+run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/background-contact.jpg > background-contact.jpg"
 
 inject_into_file "config/initializers/assets.rb", before: "# Precompile additional assets." do
   <<~RUBY
@@ -72,6 +70,7 @@ file "app/views/shared/_navbar.html.erb", <<~HTML
   <div class="navbar-deSerie">
     <div class="navbar-deSerie__logo">
       <%= link_to "#" do %>
+        <%= image_tag("logo_transparent.png") %>
       <% end %>
     </div>
     <ul class="navbar-deSerie__links">
@@ -110,6 +109,7 @@ file "app/views/shared/_footer.html.erb", <<~HTML
   <div class="footer-deSerie">
     <div class="footer-deSerie__logo">
       <%= link_to "#" do %>
+        <%= image_tag("logo_transparent.png") %>
       <% end %>
     </div>
 
