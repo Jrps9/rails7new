@@ -28,6 +28,7 @@ run "curl -L https://github.com/Jrps9/stylesheets/raw/main/stylesheets.zip > cus
 run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/logo_transparent.png > app/assets/stylesheets/images"
 run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/background-contact.jpg > app/assets/stylesheets/images"
 run "unzip customstylesheets.zip -d app/assets && rm -f customstylesheets.zip"
+
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
 
 inject_into_file "config/initializers/assets.rb", before: "# Precompile additional assets." do
@@ -142,11 +143,11 @@ HTML
 inject_into_file "app/views/layouts/application.html.erb", after: "<body>" do
   <<~HTML
     <div class="page">
-    <% if action_name != "contact" %>
-      <%= render "shared/navbar" %>
-    <% end %>
-    <%= render "shared/flashes" %>
-    <%= yield %>
+      <% if action_name != "contact" %>
+        <%= render "shared/navbar" %>
+      <% end %>
+      <%= render "shared/flashes" %>
+      <%= yield %>
     </div>
     <% if action_name != "contact" %>
       <%= render "shared/footer" %>
@@ -187,50 +188,43 @@ after_bundle do
   ########################################
   route 'root to: "pages#home"'
   route 'get "contact", to: "pages#contact"'
-
   # Contact
   ########################################
-    create_file "app/views/pages/contact.html.erb", <<~HTML
-      <div class="row no-pad">
-        <div class="col-12 col-md-6 col-lg-5">
-          <div class="contact__container">
-            <%= render "shared/contact" %>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-lg-7 contact__background">
-          <%= image_tag("background-contact.jpg") %>
-          <div class="contact__background--text">
-            <h2>Vous avez un projet ?</h2>
-            <h2>Nous serions heureux d'en parler !</h2>
-          </div>
+  create_file "app/views/pages/contact.html.erb", <<~HTML
+    <div class="row no-pad">
+      <div class="col-12 col-md-6 col-lg-5">
+        <div class="contact__container">
+          <%= render "shared/contact" %>
         </div>
       </div>
-    HTML
+      <div class="col-12 col-md-6 col-lg-7 contact__background">
+        <%= image_tag("background-contact.jpg") %>
+        <div class="contact__background--text">
+          <h2>Vous avez un projet ?</h2>
+          <h2>Nous serions heureux d'en parler !</h2>
+        </div>
+      </div>
+    </div>
+  HTML
 
   create_file "app/views/shared/_contact.html.erb", <<~HTML
-    <%= simple_form_for "toto", defaults: { input_html:{class: "custom-form-field"}, wrapper_html:{ class: "custom-input"}, label_html: {class: "custom-form-label"}} do |f| %>
-
-      <%= link_to root_path, class:"contact__link" do %>
-        <p><i class="fa-solid fa-circle-arrow-left"></i> Retour à l'acceuil</p>
-      <% end %>
-
-      <h1>Comuniquons !</h1>
-      <p>Des suggestions, remarques, ou questions ?</p>
-      <br>
-
-      <%= f.input :name,
-      label:"Nom ",
-      placeholder: "Votre nom ou prénom",
-      required: true %>
-
-      <%= f.input :email, label:"E-mail", required: true, placeholder: "Votre e-mail" %>
-
-      <%= f.label :Message, class:"custom-form-label" %>
-      <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "custom-form-field",
-            placeholder: "Votre message..."%>
-
-      <%= f.submit 'Envoyer', class: 'custom-contact-submit' %>
+  <%= simple_form_for "toto", defaults: { input_html:{class: "custom-form-field"}, wrapper_html:{ class: "custom-input"}, label_html: {class: "custom-form-label"}} do |f| %>
+    <%= link_to root_path, class:"contact__link" do %>
+      <p><i class="fa-solid fa-circle-arrow-left"></i> Retour à l'acceuil</p>
     <% end %>
+    <h1>Comuniquons !</h1>
+    <p>Des suggestions, remarques, ou questions ?</p>
+    <br>
+    <%= f.input :name,
+    label:"Nom ",
+    placeholder: "Votre nom ou prénom",
+    required: true %>
+    <%= f.input :email, label:"E-mail", required: true, placeholder: "Votre e-mail" %>
+    <%= f.label :Message, class:"custom-form-label" %>
+    <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "custom-form-field",
+          placeholder: "Votre message..."%>
+    <%= f.submit 'Envoyer', class: 'custom-contact-submit' %>
+  <% end %>
   HTML
 
   # Gitignore
@@ -302,7 +296,7 @@ after_bundle do
   # Yarn
   ########################################
   run "yarn add bootstrap @popperjs/core"
-  append_file "app/javascript/application.js", <<~JS
+  append_file "app/javascript/packs/application.js", <<~JS
     import "bootstrap"
   JS
 
