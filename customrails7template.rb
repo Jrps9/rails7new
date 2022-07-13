@@ -29,10 +29,10 @@ run "unzip customstylesheets.zip -d app/assets && rm -f customstylesheets.zip"
 
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
 
-folder "app/assets/images", <<~RUBY
-  run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/logo_transparent.png"
-  run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/background-contact.jpg"
-RUBY
+
+run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/logo_transparent.png > app/assets/images/logo_transparent.png"
+run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images/background-contact.jpg > app/assets/images/logo_transparent.png"
+
 
 inject_into_file "config/initializers/assets.rb", before: "# Precompile additional assets." do
   <<~RUBY
