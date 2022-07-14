@@ -197,7 +197,9 @@ route 'root to: "pages#home"'
 route 'get "contact", to: "pages#contact"'
 # Contact
 ########################################
-file "app/views/pages/contact.html.erb", <<~HTML
+
+remove_file "app/views/pages/contact.html.erb"
+create_file "app/views/pages/contact.html.erb", <<~HTML
   <div class="row no-pad">
     <div class="col-12 col-md-6 col-lg-5">
       <div class="contact__container">
@@ -214,31 +216,110 @@ file "app/views/pages/contact.html.erb", <<~HTML
   </div>
 HTML
 
-  create_file "app/views/shared/_contact.html.erb", <<~HTML
-    <%= simple_form_for "toto", method: "GET", defaults: { input_html:{class: "custom-form-field"}, wrapper_html:{ class: "custom-input"}, label_html: {class: "custom-form-label"}} do |f| %>
-      <%= link_to root_path, class:"contact__link" do %>
-        <p><i class="fa-solid fa-circle-arrow-left"></i> Retour à l'acceuil</p>
-      <% end %>
-
-      <h1>Comuniquons !</h1>
-      <p>Des suggestions, remarques, ou questions ?</p>
-      <br>
-
-      <%= f.input :name,
-      label:"Nom ",
-      placeholder: "Votre nom ou prénom",
-      required: true %>
-
-      <%= f.input :email, label:"E-mail", required: true, placeholder: "Votre e-mail" %>
-
-      <%= f.label :Message, class:"custom-form-label" %>
-      <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "custom-form-field",
-            placeholder: "Votre message..."%>
-
-      <%= f.submit 'Envoyer', class: 'custom-contact-submit' %>
+create_file "app/views/shared/_contact.html.erb", <<~HTML
+  <%= simple_form_for "toto", method: "GET", defaults: { input_html:{class: "custom-form-field"}, wrapper_html:{ class: "custom-input"}, label_html: {class: "custom-form-label"}} do |f| %>
+    <%= link_to root_path, class:"contact__link" do %>
+      <p><i class="fa-solid fa-circle-arrow-left"></i> Retour à l'acceuil</p>
     <% end %>
-  HTML
 
+    <h1>Comuniquons !</h1>
+    <p>Des suggestions, remarques, ou questions ?</p>
+    <br>
+
+    <%= f.input :name,
+    label:"Nom ",
+    placeholder: "Votre nom ou prénom",
+    required: true %>
+
+    <%= f.input :email, label:"E-mail", required: true, placeholder: "Votre e-mail" %>
+
+    <%= f.label :Message, class:"custom-form-label" %>
+    <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "custom-form-field",
+          placeholder: "Votre message..."%>
+
+    <%= f.submit 'Envoyer', class: 'custom-contact-submit' %>
+  <% end %>
+HTML
+
+# Homepage
+########################################
+remove_file "app/views/pages/home.html.erb"
+create_file "app/views/pages/home.html.erb", <<~HTML
+<div class="home">
+  <div class="home__banner">
+    <div class="home__banner-content">
+      <div class="home__banner-content--title">
+        <h1>Votre site commence ici ...</h1>
+      </div>
+      <div class="home__banner-content--cta">
+        C'est parti !
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="home__products">
+      <div class="home__products-title">
+        <h2>Exposez vos produits phares</h2>
+        <p>Communiquez sur vos produits, informez vos clients des dernières sorties,
+          ou acceuillez-les simplement comme il se doit !
+        </p>
+      </div>
+
+      <h3>Nos produits phares</h3>
+      <div class="home__products-container">
+        <div class="home__products-card">
+          <p>Titre du produit</p>
+        </div>
+        <div class="home__products-card">
+          <p>Titre du produit</p>
+        </div>
+        <div class="home__products-card">
+          <p>Titre du produit</p>
+        </div>
+        <div class="home__products-card">
+          <p>Titre du produit</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="home__collection">
+      <h3>Vos collections</h3>
+      <div class="home__collection-grid">
+        <div class="home__collection-grid  description desciption--row-1">
+          <p>Votre collection</p>
+        </div>
+        <div class="home__collection-grid--image--row-1"></div>
+        <div class="home__collection-grid description description--row-2">
+          <p>Ici ou là</p>
+        </div>
+        <div class="home__collection-grid--image--row-2"></div>
+        <div class="home__collection-grid description description--row-3">
+          <p>Comme vous le voulez !</p>
+        </div>
+        <div class="home__collection-grid--image--row-3"></div>
+      </div>
+    </div>
+
+    <div class="home__presentation">
+      <div class="home__presentation--image"></div>
+      <div class="home__presentation--text-container">
+        <div class="home__presentation--text-container quote quote--1">
+          <h4>Visibilité</h4>
+          <p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>
+        </div>
+        <div class="home__presentation--text-container quote quote--2">
+          <h4>Communication</h4>
+          <p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>
+        </div>
+        <div class="home__presentation--text-container quote quote--3">
+          <h4>Popularité</h4>
+          <p>Pair text with an image to focus on your chosen product, collection, or blog post. Add details on availability, style, or even provide a review.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+HTML
   # Gitignore
   ########################################
   append_file ".gitignore", <<~TXT
