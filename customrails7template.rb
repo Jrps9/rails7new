@@ -30,7 +30,7 @@ run "unzip customstylesheets.zip -d app/assets && rm -f customstylesheets.zip"
 run "mv app/assets/rails-stylesheets-master app/assets/stylesheets"
 
 run "curl -L https://github.com/Jrps9/stylesheets/raw/main/images.zip > images.zip"
-run "unzip images.zip -d app/assets/images && rm -f images.zip"
+run "unzip images.zip -d app/assets && rm -f images.zip"
 
 inject_into_file "config/initializers/assets.rb", before: "# Precompile additional assets." do
   <<~RUBY
