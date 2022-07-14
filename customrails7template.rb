@@ -145,18 +145,22 @@ HTML
 
 inject_into_file "app/views/layouts/application.html.erb", after: "<body>" do
   <<~HTML
-    <div class="page">
-      <% if action_name != "contact" %>
-        <%= render "shared/navbar" %>
-      <% end %>
-      <%= render "shared/flashes" %>
-      <%= yield %>
-    </div>
-    <% if action_name != "contact" %>
-      <%= render "shared/footer" %>
-    <% end %>
+  <% if action_name != "contact" %>
+    <%= render "shared/navbar" %>
+  <% end %>
+  <%= render "shared/flashes" %>
   HTML
 end
+
+inject_into_file "app/views/layouts/application.html.erb", before: "</body>" do
+  <<~HTML
+  <% if action_name != "contact" %>
+    <%= render "shared/footer" %>
+  <% end %>
+  HTML
+end
+
+
 
 # README
 ########################################
@@ -181,53 +185,58 @@ environment generators
 # After bundle
 ########################################
 after_bundle do
-  # Generators: db + simple form + pages controller
-  ########################################
-  rails_command "db:drop db:create db:migrate"
-  generate("simple_form:install", "--bootstrap")
-  generate(:controller, "pages", "home", "contact", "--skip-routes", "--no-test-framework")
+# Generators: db + simple form + pages controller
+########################################
+rails_command "db:drop db:create db:migrate"
+generate("simple_form:install", "--bootstrap")
+generate(:controller, "pages", "home", "contact", "--skip-routes", "--no-test-framework")
 
-  # Routes
-  ########################################
-  route 'root to: "pages#home"'
-  route 'get "contact", to: "pages#contact"'
-  # Contact
-  ########################################
-  file "app/views/pages/contact.html.erb", <<~HTML
-    <div class="row no-pad">
-      <div class="col-12 col-md-6 col-lg-5">
-        <div class="contact__container">
-          <%= render "shared/contact" %>
-        </div>
-      </div>
-      <div class="col-12 col-md-6 col-lg-7 contact__background">
-        <%= image_tag("background-contact.jpg") %>
-        <div class="contact__background--text">
-          <h2>Vous avez un projet ?</h2>
-          <h2>Nous serions heureux d'en parler !</h2>
-        </div>
+# Routes
+########################################
+route 'root to: "pages#home"'
+route 'get "contact", to: "pages#contact"'
+# Contact
+########################################
+file "app/views/pages/contact.html.erb", <<~HTML
+  <div class="row no-pad">
+    <div class="col-12 col-md-6 col-lg-5">
+      <div class="contact__container">
+        <%= render "shared/contact" %>
       </div>
     </div>
-  HTML
+    <div class="col-12 col-md-6 col-lg-7 contact__background">
+      <%= image_tag("background-contact.jpg") %>
+      <div class="contact__background--text">
+        <h2>Vous avez un projet ?</h2>
+        <h2>Nous serions heureux d'en parler !</h2>
+      </div>
+    </div>
+  </div>
+HTML
 
   create_file "app/views/shared/_contact.html.erb", <<~HTML
-  <%= simple_form_for "toto", defaults: { input_html:{class: "custom-form-field"}, wrapper_html:{ class: "custom-input"}, label_html: {class: "custom-form-label"}} do |f| %>
-    <%= link_to root_path, class:"contact__link" do %>
-      <p><i class="fa-solid fa-circle-arrow-left"></i> Retour à l'acceuil</p>
+    <%= simple_form_for "toto", method: "GET", defaults: { input_html:{class: "custom-form-field"}, wrapper_html:{ class: "custom-input"}, label_html: {class: "custom-form-label"}} do |f| %>
+      <%= link_to root_path, class:"contact__link" do %>
+        <p><i class="fa-solid fa-circle-arrow-left"></i> Retour à l'acceuil</p>
+      <% end %>
+
+      <h1>Comuniquons !</h1>
+      <p>Des suggestions, remarques, ou questions ?</p>
+      <br>
+
+      <%= f.input :name,
+      label:"Nom ",
+      placeholder: "Votre nom ou prénom",
+      required: true %>
+
+      <%= f.input :email, label:"E-mail", required: true, placeholder: "Votre e-mail" %>
+
+      <%= f.label :Message, class:"custom-form-label" %>
+      <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "custom-form-field",
+            placeholder: "Votre message..."%>
+
+      <%= f.submit 'Envoyer', class: 'custom-contact-submit' %>
     <% end %>
-    <h1>Comuniquons !</h1>
-    <p>Des suggestions, remarques, ou questions ?</p>
-    <br>
-    <%= f.input :name,
-    label:"Nom ",
-    placeholder: "Votre nom ou prénom",
-    required: true %>
-    <%= f.input :email, label:"E-mail", required: true, placeholder: "Votre e-mail" %>
-    <%= f.label :Message, class:"custom-form-label" %>
-    <%= f.text_area :message, rows: 8, cols: 40, required: true, class: "custom-form-field",
-          placeholder: "Votre message..."%>
-    <%= f.submit 'Envoyer', class: 'custom-contact-submit' %>
-  <% end %>
   HTML
 
   # Gitignore
