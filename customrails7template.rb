@@ -265,7 +265,7 @@ create_file "app/views/pages/home.html.erb", <<~HTML
         </p>
       </div>
 
-      <h3>Nos produits phares</h3>
+      <h3>Vos produits phares</h3>
       <div class="home__products-container">
         <div class="home__products-card">
           <p>Titre du produit</p>
@@ -288,19 +288,20 @@ create_file "app/views/pages/home.html.erb", <<~HTML
         <div class="home__collection-grid  description desciption--row-1">
           <p>Votre collection</p>
         </div>
-        <div class="home__collection-grid--image--row-1"></div>
+        <div class="home__collection-grid-image--row-1"></div>
         <div class="home__collection-grid description description--row-2">
           <p>Ici ou là</p>
         </div>
-        <div class="home__collection-grid--image--row-2"></div>
+        <div class="home__collection-grid-image--row-2"></div>
         <div class="home__collection-grid description description--row-3">
           <p>Comme vous le voulez !</p>
         </div>
-        <div class="home__collection-grid--image--row-3"></div>
+        <div class="home__collection-grid-image--row-3"></div>
       </div>
     </div>
 
     <div class="home__presentation">
+      <h3>N'hésitez pas à nous contacter !</h3>
       <div class="home__presentation--image"></div>
       <div class="home__presentation--text-container">
         <div class="home__presentation--text-container quote quote--1">
@@ -319,7 +320,7 @@ create_file "app/views/pages/home.html.erb", <<~HTML
     </div>
   </div>
 </div>
-HTML
+
   # Gitignore
   ########################################
   append_file ".gitignore", <<~TXT
@@ -374,7 +375,7 @@ HTML
   run "rm app/controllers/pages_controller.rb"
   file "app/controllers/pages_controller.rb", <<~RUBY
     class PagesController < ApplicationController
-      skip_before_action :authenticate_user!, only: [ :home ]
+      skip_before_action :authenticate_user!
 
       def home
       end
