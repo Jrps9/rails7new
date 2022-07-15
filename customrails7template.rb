@@ -320,7 +320,7 @@ create_file "app/views/pages/home.html.erb", <<~HTML
     </div>
   </div>
 </div>
-
+HTML
   # Gitignore
   ########################################
   append_file ".gitignore", <<~TXT
